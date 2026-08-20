@@ -1,0 +1,66 @@
+name: Confusion / cannot follow along
+description: Docs or product wording left you stuck. Pick component + situation so we can fix the copy or path.
+title: "[docs] "
+labels: ["type:docs", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this when the **system is unclear**, not necessarily broken. We use your answers to improve the glossary and follow-along path.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Home
+        - Pipeline / Leads / Opportunities
+        - Projects (Overview / job)
+        - People (job roster)
+        - Work (tasks / calendar / kanban)
+        - Capacity
+        - Money (job invoices and bills)
+        - Payments (cash in / out)
+        - Finance (company-wide)
+        - Docs (checklist / files)
+        - Activity (job thread / mentions)
+        - Site (snags / MR / PO)
+        - Client Pack
+        - Settings / Admin
+        - Sign-in / session
+        - Glossary / docs only
+        - Other / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: situation
+    attributes:
+      label: Situation
+      options:
+        - Trying to learn the week loop
+        - Looking up a word (glossary)
+        - Trying to bill or collect
+        - Trying to staff a job
+        - Trying to assign work
+        - Trying to share a pack
+        - Comparing Docs checklist vs Money
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: stuck
+    attributes:
+      label: Where you got stuck
+      description: Quote the doc section or UI label if you can.
+    validations:
+      required: true
+  - type: textarea
+    id: wanted
+    attributes:
+      label: What would have helped
+    validations:
+      required: true
+  - type: input
+    id: doc-link
+    attributes:
+      label: Doc file or URL (if known)
+      placeholder: product/PLATFORM-GLOSSARY-AND-FUNCTIONS.md

@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Live product
+    url: https://spaces.keyteller.com/studio/
+    about: Open Studio Web (sign-in required for demo tenants).
+  - name: Browse the docs
+    url: https://github.com/ActArtech/spaces-docs#start-here
+    about: Read the operational glossary, OS overview, and follow-along path before filing.
+  - name: Platform glossary PDF
+    url: https://github.com/ActArtech/spaces-docs/blob/main/exports/Spaces-Platform-Glossary.pdf
+    about: Clean printable glossary and functions copy.

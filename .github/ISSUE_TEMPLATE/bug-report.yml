@@ -1,0 +1,104 @@
+name: Bug or broken behaviour
+description: Something in Studio Web does not match what you expected. Pick the component and situation so we can route it.
+title: "[bug] "
+labels: ["type:bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report **exactly** what happened. Choose the **component** (where in the product) and the **situation** (what you were doing). Attach a screenshot if you can.
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      description: Where in Spaces did this happen?
+      options:
+        - Home
+        - Pipeline / Leads / Opportunities
+        - Projects (Overview / job)
+        - People (job roster)
+        - Work (tasks / calendar / kanban)
+        - Capacity
+        - Money (job invoices and bills)
+        - Payments (cash in / out)
+        - Finance (company-wide)
+        - Docs (checklist / files)
+        - Activity (job thread / mentions)
+        - Site (snags / MR / PO)
+        - Client Pack
+        - Settings / Admin
+        - Sign-in / session
+        - Other / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: situation
+    attributes:
+      label: Situation
+      description: What were you doing when it went wrong?
+      options:
+        - Creating something new
+        - Editing an existing record
+        - Submitting or cancelling
+        - Exporting or printing
+        - Searching or filtering a list
+        - Opening a detail sheet / drawer
+        - After hard refresh
+        - On phone / small screen
+        - Login or session
+        - Wrong numbers or totals
+        - Permission denied / Viewer blocked
+        - Cannot find how to do the job
+        - Slow or UI broken
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: Your role (closest match)
+      options:
+        - Owner / Principal
+        - Design lead
+        - Site
+        - Finance
+        - Viewer (read-only)
+        - Guest (Client Pack)
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Write it as you experienced it. Include error text if any.
+      placeholder: I opened Job 2608-0001 Money tab and the due figure stayed at 0 after I submitted the sales invoice...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps from a signed-in Home screen.
+      placeholder: |
+        1. Sign in as ...
+        2. Open ...
+        3. Click ...
+    validations:
+      required: true
+  - type: input
+    id: job-or-url
+    attributes:
+      label: Job Order, document name, or URL (if known)
+      placeholder: 2608-0001 or https://spaces.keyteller.com/studio/...
+  - type: textarea
+    id: extras
+    attributes:
+      label: Screenshot notes or browser
+      description: Browser + OS help. Paste image links if the form upload is unavailable.

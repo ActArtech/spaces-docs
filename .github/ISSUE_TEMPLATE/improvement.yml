@@ -1,0 +1,58 @@
+name: Improvement idea
+description: Propose a clearer path or UI change. Still pick component + situation.
+title: "[idea] "
+labels: ["type:idea", "needs-triage"]
+body:
+  - type: dropdown
+    id: component
+    attributes:
+      label: Component
+      options:
+        - Home
+        - Pipeline / Leads / Opportunities
+        - Projects (Overview / job)
+        - People (job roster)
+        - Work (tasks / calendar / kanban)
+        - Capacity
+        - Money (job invoices and bills)
+        - Payments (cash in / out)
+        - Finance (company-wide)
+        - Docs (checklist / files)
+        - Activity (job thread / mentions)
+        - Site (snags / MR / PO)
+        - Client Pack
+        - Settings / Admin
+        - Sign-in / session
+        - Other / not sure
+    validations:
+      required: true
+  - type: dropdown
+    id: situation
+    attributes:
+      label: Situation this would help
+      options:
+        - Creating something new
+        - Editing an existing record
+        - Submitting or cancelling
+        - Exporting or printing
+        - Searching or filtering a list
+        - Opening a detail sheet / drawer
+        - On phone / small screen
+        - Learning / onboarding
+        - Wrong numbers or totals
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Idea
+      description: One job. What should the owner be able to finish faster?
+    validations:
+      required: true
+  - type: textarea
+    id: today
+    attributes:
+      label: How it works today (pain)
+    validations:
+      required: true
