@@ -6,8 +6,7 @@ Use this page as your bookmark: every login, workspace link, form URL, and day-t
 
 | | |
 |--|--|
-| **Live desk** | [https://spaces.keyteller.com/desk](https://spaces.keyteller.com/desk) |
-| **Studio Web** | [https://spaces.keyteller.com/studio/](https://spaces.keyteller.com/studio/) (after deploy; local dev: `apps/studioweb`) |
+| **Studio Web** | [https://spaces.keyteller.com/studio/](https://spaces.keyteller.com/studio/) (the product. `/desk` and `/app` redirect here for studio roles) |
 | **Brand** | Spaces |
 | **Company (ERP)** | `space` · AED · UAE |
 | **Last baseline** | Jul 2026 — pilot dummy data seeded |
@@ -18,8 +17,8 @@ Use this page as your bookmark: every login, workspace link, form URL, and day-t
 
 ## Quick start (3 steps)
 
-1. **Log in** → [https://spaces.keyteller.com/desk](https://spaces.keyteller.com/desk)
-2. **Land on Studio Home** — sidebar shows: Home · Health · Pipeline · Projects · Site · Finance · Settings
+1. **Log in** → [https://spaces.keyteller.com/studio/](https://spaces.keyteller.com/studio/)
+2. **Land on Studio Home** - sidebar shows: Home · Portfolio · Pipeline · Projects · Work · Finance · Site · Admin
 3. **Follow one job** — Pipeline → Lead → Opportunity → set **Converted** → open Project in Projects
 
 **Full tour of capabilities (12 flows, ~20–30 min):** **[WALKTHROUGH.md](./WALKTHROUGH.md)**
