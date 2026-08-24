@@ -22,7 +22,7 @@ Unconfigured Helpdesk uses Frappe defaults: "Login to Frappe" and the Frappe fra
 
 Helpdesk Knowledge Base has two categories: **Getting started** and **Jobs to be done**. Articles link to each other (`/helpdesk/kb-public/articles/...`) and to Studio routes.
 
-Start at **Start here: Knowledge Base map**. Jobs include P-J01 (Home decisions), P-J03 (approve and bill), P-J04 (win from pipeline), P-J05 (assign delivery), P-J07 (invoices and collect), P-J10 (client pack), D-J01 (Work first), OL-J01 (Owner Lite), S-J01 (site), F-J01 (finance). Also: Sign in, week loop, Words we use, Money, People, Capacity, Variations, How to report.
+Start at **Start here: Knowledge Base map** and **What Spaces is (studio OS on ERPNext)**. Spaces is a studio operating system on ERPNext: daily work is Studio Web; legal invoices are SI/PI/PE. Do not train owners to live in Desk as "the ERP." Jobs include P-J01 through P-J10, D-J01, OL-J01, S-J01, F-J01, plus invite team (P-J08) and company identity (P-J09). Also: Words we use, Money, People, Activity, Portfolio and expected cash, Viewer and the client pack.
 
 ## How to report
 
