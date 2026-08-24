@@ -8,7 +8,9 @@
 
 Helpdesk is a **separate site** from Studio (`help.spaces.keyteller.com` vs `spaces.keyteller.com`). Logging into Studio does not log you into Helpdesk. The two products do not share cookies or the User table.
 
-Open Helpdesk from **Studio → Helpdesk / Help Center**, or click **Continue from Studio** on the Helpdesk login page. Studio issues a short signed link and Helpdesk signs you in as a Helpdesk Contact on **/helpdesk/my-tickets** (customer portal). **/helpdesk/tickets** is the agent list and will bounce a Contact back to login.
+Open Helpdesk from **Studio → Helpdesk / Help Center** (Open Helpdesk home), or click **Continue from Studio** on the Helpdesk login page. That signs you in on **/helpdesk/my-tickets**. **/helpdesk/tickets** is the agent list. Do not use it as an owner.
+
+Helpdesk is a different User table. The Studio password does not exist there until the demo owner is seeded, or until you use Continue from Studio. Demo Principal email is the same (`owner@spaces-demo.local`); after seed the Helpdesk password matches Studio (`SpacesDemo2026!`).
 
 If you open the host root (`/` or `/#login` or `#login-with-email-link`) you get the Helpdesk login page, not the app. That is a different site from Studio.
 
@@ -18,18 +20,9 @@ Unconfigured Helpdesk uses Frappe defaults: "Login to Frappe" and the Frappe fra
 
 ## Knowledge base
 
-Helpdesk Knowledge Base (category **Spaces guides**) publishes:
+Helpdesk Knowledge Base has two categories: **Getting started** and **Jobs to be done**. Articles link to each other (`/helpdesk/kb-public/articles/...`) and to Studio routes.
 
-- What Spaces Helpdesk is
-- Sign in: Studio vs Helpdesk
-- Follow along: owner week loop
-- First 15 minutes in Studio
-- How to report: component and situation
-- Component and situation catalog
-- Words we use
-- Money: invoices, bills, payments
-- People: who is on the job
-- Project tabs
+Start at **Start here: Knowledge Base map**. Jobs include P-J01 (Home decisions), P-J03 (approve and bill), P-J04 (win from pipeline), P-J05 (assign delivery), P-J07 (invoices and collect), P-J10 (client pack), D-J01 (Work first), OL-J01 (Owner Lite), S-J01 (site), F-J01 (finance). Also: Sign in, week loop, Words we use, Money, People, Capacity, Variations, How to report.
 
 ## How to report
 
