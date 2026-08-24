@@ -1,7 +1,7 @@
 # Spaces Studio - Platform glossary and functions
 
 **Export companion:** [Spaces-Platform-Glossary.pdf](./exports/Spaces-Platform-Glossary.pdf)  
-**Date:** 2026-08-20  
+**Date:** 2026-08-24  
 **Product:** https://spaces.keyteller.com/studio/  
 **Ontology SSOT:** [DOMAIN-ONTOLOGY.md](../02-architecture/DOMAIN-ONTOLOGY.md)  
 **JTBD SSOT:** [ROLES-JTBD-USER-STORIES.md](./ROLES-JTBD-USER-STORIES.md)
@@ -47,6 +47,9 @@ Money is ERPNext Sales Invoice, Purchase Invoice, and Payment Entry. There is no
 | Variation | Scope change | Project variation flow | Invoice (cash after SI) |
 | Pack | Client-visible files | `client_visible` fail-closed | Internal docs |
 | Viewer | Read-only Studio user | persist deny | Guest pack |
+| Owner Lite | Co-owner without Admin | Role `Studio Owner Lite` | Principal Admin |
+| Expected cash | SI/PI due in 30 days | `get_finance_expected_cash` | Bank balance |
+| Exceptions | Open jobs that need follow-up | `get_portfolio_exceptions` | A write queue |
 
 ---
 
@@ -55,7 +58,7 @@ Money is ERPNext Sales Invoice, Purchase Invoice, and Payment Entry. There is no
 | Tab | Owner sentence | Relates |
 |-----|----------------|---------|
 | Overview | Job at a glance: status, next date, links | People holds the roster |
-| People | Who is on this job, one row per person | Lead field + Team Member roster |
+| People | Who is on this job, one row per person | Lead field + Team Member roster. List cell is a compact stack, not this tab. |
 | Activity | Job thread; not the ledger | Mentions link records; money stays SI/PI/PE |
 | Money | Job value, invoices, bills (VAT Net) | Payments is cash |
 | Payments | Collected and paid on this job | Still due comes from Money |
@@ -76,6 +79,8 @@ Money is ERPNext Sales Invoice, Purchase Invoice, and Payment Entry. There is no
 | Overhead | Studio running costs not billed to a single job |
 | Monthly costs | This month's salaries (read) and journal expenses |
 | Ledger | GL lines posted from invoices and payments (read) |
+
+Expected cash is a **panel** on Finance, not a tab: submitted SI/PI due in 30 days, explicitly not a bank balance.
 
 ---
 

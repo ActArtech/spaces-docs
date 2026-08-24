@@ -76,7 +76,7 @@ Historical Job Order Handle data remains stored only; it has no active Studio UI
 
 | | Studio project code | Project name | ERP project id |
 |--|---------------------|--------------|----------------|
-| **Example** | `AR-02` | Al Reem Villa Interior | `PROJ-0002` |
+| **Example** | `2608-0001` | Al Reem Villa Interior | `PROJ-0002` |
 | **Length** | Short | Long | Fixed system style |
 | **Unique** | Yes (when set) | Prefer unique titles | Always unique |
 | **Spoken aloud** | Yes | Sometimes | Rarely |
@@ -122,7 +122,7 @@ Legacy values (Interior / Exterior / Landscape / Mixed) may still exist on older
 |--|--|
 | **Say this** | People · Lead · Support |
 | **Means** | Who is on the job. **Lead** owns delivery. **Support** helps. Several people allowed. |
-| **In the system** | `Project Team Member` via `set_project_people`. Lead also writes `Project.lead_architect`. Full write rules: [ASSIGNMENT.md](../02-architecture/ASSIGNMENT.md). |
+| **In the system** | `Project Team Member` via `set_project_people` (list picker) and the command-sheet People tab (same child table). Lead also writes `Project.lead_architect`. List cell is a compact stack (`personInitials`). Full write rules: [ASSIGNMENT.md](../02-architecture/ASSIGNMENT.md). |
 | **Do not confuse with** | Task people (same words, different writer). Retired communication-owner data. |
 
 ## 1.7b Task people (Lead and Support)
@@ -131,7 +131,7 @@ Legacy values (Interior / Exterior / Landscape / Mixed) may still exist on older
 |--|--|
 | **Say this** | People · Lead · Support |
 | **Means** | Who does the task. **Lead** owns it. **Support** helps. |
-| **In the system** | `Task._assign` JSON via `set_task_people`. First id is Lead. |
+| **In the system** | `Task._assign` JSON via `set_task_people` (`set_task_assignees` is the Studio Web facade). First id is Lead. |
 | **Do not confuse with** | Project people; ERP single ToDo assignee |
 
 ## 1.8 Location

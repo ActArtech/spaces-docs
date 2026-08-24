@@ -17,7 +17,7 @@ Demo logins live in [USER-GUIDE.md](./USER-GUIDE.md). Hard refresh (Ctrl+Shift+R
 | 7 | Collect / pay | **Payments** | Payment Entry allocated to the invoice |
 | 8 | Check load | **Capacity** | Job scale set; Add/Adjust persists |
 | 9 | Evidence papers | Project **Docs** | Checklist ticks + optional URLs |
-| 10 | Stuck or wrong? | [Report an issue](https://github.com/ActArtech/spaces-docs/issues/new/choose) | Component + situation filled |
+| 10 | Stuck or wrong? | Studio **Help Center** (https://spaces.keyteller.com/studio/help-center) then Helpdesk `/helpdesk` | Component + situation filled. Not `/#login`. |
 
 ## Words that matter
 

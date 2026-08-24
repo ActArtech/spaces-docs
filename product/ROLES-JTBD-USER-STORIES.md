@@ -13,7 +13,7 @@
 | Alignment / how to resolve stale lines | [ONTOLOGY-JTBD-ALIGNMENT.md](./ONTOLOGY-JTBD-ALIGNMENT.md) |
 | Product words | [PRODUCT-GLOSSARY.md](./PRODUCT-GLOSSARY.md) + [DOMAIN-ONTOLOGY.md](../02-architecture/DOMAIN-ONTOLOGY.md) |
 | WR ids | [GAPS.md](../04-studio-web/GAPS.md) |
-| Dated live-vs-local | [GAP-ANALYSIS-2026-08.md](./GAP-ANALYSIS-2026-08.md) |
+| Dated live-vs-local | [GAP-ANALYSIS-2026-08-24.md](./GAP-ANALYSIS-2026-08-24.md) |
 | Build next | [DEVELOPMENT-PRIORITIES.md](./DEVELOPMENT-PRIORITIES.md) |
 | Actor overlay (not new Frappe roles) | [ACTOR-JOBS-AGENTIC-STAGE.md](./ACTOR-JOBS-AGENTIC-STAGE.md) |
 
@@ -141,7 +141,7 @@
 | 2 | Confirm role profile on User = Studio Principal Profile | Roles include `Studio Principal` | |
 | 3 | Open `/studio/admin` | Company card + team + role profiles + Add user | |
 | 4 | Open `/studio/work` | Task list loads (including unassigned) | |
-| 5 | Open project PROJ-0002 command sheet | Overview, Activity, Money, Payments, Docs, Variations | |
+| 5 | Open project PROJ-0002 command sheet | Overview, People, Activity, Money, Payments, Docs, Variations | |
 | 6 | Variations: Principal sees Approve / Reject | `lead.arch@` may also if Principal; Design Lead must not | |
 | 7 | Desk: Studio Settings workspace (infrastructure only; not product UX) | Users/company/theme exist for support. Daily product Admin is `/studio/admin` | |
 | 8 | Module profile Studio Desk | No Stock/Manufacturing noise in modules | |

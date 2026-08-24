@@ -19,6 +19,7 @@ The application source stays in a private repo. This public pack is the operatio
 | 6 | [architecture/DOMAIN-ONTOLOGY.md](./architecture/DOMAIN-ONTOLOGY.md) | SSOT fields and write rules |
 | 7 | [product/ROLES-JTBD-USER-STORIES.md](./product/ROLES-JTBD-USER-STORIES.md) | Roles and jobs-to-be-done |
 | 8 | [guides/USER-GUIDE.md](./guides/USER-GUIDE.md) | Logins and surfaces |
+| 9 | [product/HELPDESK.md](./product/HELPDESK.md) | Why Helpdesk asks to log in; Spaces brand not Frappe |
 
 ---
 

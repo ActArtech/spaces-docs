@@ -13,12 +13,13 @@ Without both, "invoice broken" could mean Money create, Payments allocate, Docs 
 
 ## Steps
 
-1. Open https://github.com/ActArtech/spaces-docs/issues/new/choose
-2. Choose **Bug**, **Confusion**, or **Improvement**
-3. Set **Component** and **Situation** (required)
-4. Write what happened in your words
-5. Add Job Order / URL if you have it
-6. Submit
+1. Prefer Studio **Help Center** (https://spaces.keyteller.com/studio/help-center). That signs you into Helpdesk. Do not open https://help.spaces.keyteller.com/#login
+2. Public browse reports: https://github.com/ActArtech/spaces-docs/issues/new/choose
+3. Choose **Bug**, **Confusion**, or **Improvement**
+4. Set **Component** and **Situation** (required)
+5. Write what happened in your words
+6. Add Job Order / URL if you have it
+7. Submit
 
 ## Good example
 

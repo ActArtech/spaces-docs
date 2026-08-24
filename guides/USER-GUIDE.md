@@ -68,8 +68,19 @@ Premium list/dashboard shell at `/studio/`. Same Frappe session cookie as desk. 
 | `/studio/finance` | Finance — AR/AP/payments/reports/ledger; create + submit SI/PI/PE/JE |
 | `/studio/site` | Site and Procurement — MR, PO, issues; create, assign, submit drafts |
 | `/studio/sign-in` | Frappe login |
+| `/studio/help-center` | Help Center — Report issue launcher (component + situation) |
 
 **Local dev:** `cd apps/studioweb/shadcn-admin && pnpm run dev` — see [apps/studioweb/README.md](./apps/studioweb/README.md).
+
+### Helpdesk (proprietary)
+
+| What | URL |
+|------|-----|
+| **Live Helpdesk** | [https://help.spaces.keyteller.com/helpdesk](https://help.spaces.keyteller.com/helpdesk) (not `/#login`) |
+| **Studio Help Center** | [https://spaces.keyteller.com/studio/help-center](https://spaces.keyteller.com/studio/help-center) |
+| Ops / fields | [HELPDESK-FRAPPE-IMPLEMENT.md](../05-operations/HELPDESK-FRAPPE-IMPLEMENT.md) |
+
+Tickets need **component** + **situation**. Studio Help Center signs you into Helpdesk (sibling site; Studio cookies do not carry over). Bookmark `/helpdesk`, not `/#login`. Brand is **Spaces Helpdesk**, not the Frappe logo. Do not file product bugs only on public GitHub Issues.
 
 ### Public & desk
 

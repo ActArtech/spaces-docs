@@ -2,11 +2,11 @@
 
 **Purpose:** Glossary, single sources of truth (SSOT), bounded contexts, and **influence / effect graph** for the architecture-studio vertical.  
 
-**Status:** Foundation v1 — maintained against the current worktree. Live VPS tip: `692e984` (2026-08-13 consistency correction gate/ship); W6 correctness + WR-24 B feature ship: `4957699` (2026-08-12). Historical first W5-7 batch: `826d0fd` (2026-08-11).
+**Status:** Foundation v1, refreshed 2026-08-24 against live Studio Web. VPS / GitHub product tip: `912e9e3`. Dated live-vs-local: [GAP-ANALYSIS-2026-08-24.md](../03-product/GAP-ANALYSIS-2026-08-24.md). Historical W6/W7 feature ship: `4957699`.
 
 **Does not replace:** [SPACES-CONTRACTS.md](./SPACES-CONTRACTS.md) (invariants / footguns) or [JOURNEY-MATRIX.md](./JOURNEY-MATRIX.md) (path tests). This doc answers **what things mean** and **what writes what**.
 
-**Related:** [STUDIO-WORKFLOW.md](./STUDIO-WORKFLOW.md) · [FEATURE-GAPS.md](./FEATURE-GAPS.md) · [VERTICAL-STRATEGY.md](./VERTICAL-STRATEGY.md) · [PLATFORM-SITEMAP.md](./PLATFORM-SITEMAP.md)
+**Related:** [PRODUCT-GLOSSARY.md](../03-product/PRODUCT-GLOSSARY.md) · [PLATFORM-GLOSSARY-AND-FUNCTIONS.md](../03-product/PLATFORM-GLOSSARY-AND-FUNCTIONS.md) · [ASSIGNMENT.md](./ASSIGNMENT.md) · [ONTOLOGY-JTBD-ALIGNMENT.md](../03-product/ONTOLOGY-JTBD-ALIGNMENT.md) · [STUDIO-WORKFLOW.md](./STUDIO-WORKFLOW.md) · [FEATURE-GAPS.md](./FEATURE-GAPS.md) · [VERTICAL-STRATEGY.md](./VERTICAL-STRATEGY.md) · [PLATFORM-SITEMAP.md](./PLATFORM-SITEMAP.md)
 
 ---
 
@@ -45,20 +45,23 @@
                              └──────────────────┘
 ```
 
-| Context | Workspace (desk) | Owns (intent) | Must not own |
-|---------|------------------|---------------|--------------|
-| **Pipeline** | Clients and Pipeline | Lead, Opportunity, Quotation, early Customer | Project cost truth, cash |
-| **Delivery** | Projects and Design | Task, Timesheet, Project Update, File (work) | Double-entry ledger |
-| **Commercial** | Project form (Profile) | Team, stakeholders, fee **plan**, supplier **plan**, material plan, lifecycle, budget **intent** | Legal invoice, bank cash |
-| **Finance** | Studio Finance | Sales Invoice, Purchase Invoice, Payment Entry, JE, AR/AP/GL | Task colors, drawing files |
-| **Site & Buy** | Site and Procurement | Material Request, PO, Supplier, Issue | Client fee schedule design |
-| **Platform** | Studio Settings | Company, User, roles, theme, domains | Job commercial truth |
+| Context | Studio Web (daily) | Owns (intent) | Must not own |
+|---------|--------------------|---------------|--------------|
+| **Pipeline** | `/studio/pipeline` `/studio/clients` `/studio/opportunities` | Lead, Opportunity, Quotation, Customer | Project cost truth, cash |
+| **Delivery** | `/studio/work` `/studio/projects` Activity | Task, File (work), Studio Activity | Double-entry ledger; new writes to `Project Update` |
+| **Commercial** | Project command sheet (People, Overview, Docs, Variations) | Team, stakeholders, fee **plan**, supplier **plan**, material plan, job status, budget **intent** | Legal invoice, bank cash |
+| **Finance** | `/studio/finance` plus job Money / Payments | Sales Invoice, Purchase Invoice, Payment Entry, JE, AR/AP/GL | Task colors, drawing files, bank-balance forecasts |
+| **Site & Buy** | `/studio/site` | Material Request, PO, Supplier, Issue | Client fee schedule design |
+| **Platform** | `/studio/admin` (Principal) | Company, User, roles, theme, domains | Job commercial truth |
+
+Desk workspaces with the same names exist for infrastructure only.
 
 **Hub rule:** Operational and commercial **plans** roll up to one **Project**. Legal money lives in Accounts DocTypes linked by `project`.
 
 **Assignment (studio people)**  
-- **Project:** several people via `Project Team Member`. One **Lead** (`Lead Architect / Designer`) also writes `Project.lead_architect` for capacity. Others are **Support** (`Designer`). External unnamed rows are kept. Writer: `set_project_people`.  
-- **Task:** several people via `Task._assign` JSON only (W4). **Lead** is index 0; **Support** is everyone after. No Informed writer on Task.
+- **Project:** several people via `Project Team Member` (one child table). One **Lead** (`Lead Architect / Designer`) also writes `Project.lead_architect` for capacity. Others are **Support** (`Designer`) or other studio roles on the command-sheet roster. External unnamed rows are kept. List-cell picker writer: `set_project_people`. Command-sheet People tab uses the same child table via team upsert / delete plus `lead_architect` patch. Do not add a second people table.  
+- **Display:** Projects list shows a compact avatar stack (max two discs + `+N`) from `list_project_people`. Initials use `personInitials()` (emails use the local part).  
+- **Task:** several people via `Task._assign` JSON only (W4). Writer: `set_task_people` (`studio_web.set_task_assignees` is the facade). **Lead** is index 0; **Support** is everyone after. No Informed writer on Task.
 
 ---
 
@@ -84,7 +87,7 @@
 
 | Studio project code | Project name | ERP project id |
 |---------------------|--------------|----------------|
-| `AR-02` | Al Reem Villa Interior | `PROJ-0002` |
+| `2608-0001` | Al Reem Villa Interior | `PROJ-0002` |
 
 ### 2.2 People and parties
 
@@ -95,9 +98,13 @@
 | **Opportunity** | Qualified job pursuit | DocType `Opportunity` |
 | **Primary client contact** | Main person for the job | `primary_client_contact` → Contact |
 | **Stakeholder** | Client-side people on the job | Child `Project Stakeholder` |
-| **Legacy communication owner** | Historical follow-up-owner field retained for old records only; not used by Studio product logic. | `communication_owner` → User |
-| **Lead architect / PM / execution lead** | Named role headers (also denormalized from team table) | User links on Project |
-| **Team member** | Collaborator row | Child `Project Team Member` |
+| **Legacy communication owner** | Historical follow-up-owner field retained for old records only; not used by Studio product logic. Not SPOC. | `communication_owner` → User (leftover stored) |
+| **Lead architect / PM / execution lead** | Named role headers (also denormalized from team table). Product Lead is `lead_architect`. | User links on Project |
+| **Team member** | Collaborator row on the job | Child `Project Team Member` |
+| **People tab** | Job roster surface: job Lead card + Team Member list, plus stakeholders / partners / suppliers | Command sheet tab `people` |
+| **People stack** | Compact Projects-list display of the roster (max two initials + overflow) | Derived from `list_project_people`; not a writer |
+| **Owner Lite** | Co-owner without Admin. Finance nav stays. Money DocPerms on SI/PI/PE/JE match Principal in `PERMISSIONS`; Principal mirror skips User/Company/Settings/Workspace. | Role `Studio Owner Lite` |
+| **Viewer** | Read-only Studio user. Writes fail closed. | Role `Studio Viewer`; `deny_studio_viewer_write` |
 | **Partner** | External firm on the job (may link Supplier) | Child `Project Partner` |
 | **Supplier** | ERP buy-side party | DocType `Supplier` |
 | **Subcontractor** | Studio language for a supplier paid to execute scope | Usually `Supplier` + partner / supplier payment rows |
@@ -120,6 +127,10 @@
 | **Overhead cost** | Studio-level cost with no job link | Submitted Purchase Invoice with `project` empty; panel shows due/overdue (`due_date`, days past due) + monthly rollup | Project-linked PI; a second cost table |
 | **Monthly cost** | Recurring studio cost (salaries + other monthly expenses) | Derived: submitted `Salary Slip.net_pay` by month when payroll is installed and readable + Journal Entry GL Expense-account lines (net debit−credit), active-company scoped; display-only, not HR/payroll. The Journal Entry restriction prevents payroll GL postings from double-counting Salary Slips. | A salary plan table; a second GL |
 | **Facts and Figures metrics** | Studio-wide numbers for /portfolio: avg burn, AR due + overdue, open pipeline value, capacity snapshot | Burn, AR, and pipeline are active-company scoped; capacity uses the existing studio-wide `build_capacity_board` until multi-company capacity scope is designed. All are read-only derivations. | A metrics table; anything that writes money |
+| **Expected cash outlook** | Submitted SI/PI balances due from server `as_of` through an inclusive 30-day horizon: receivables due, payables due, net expected. Active company, base currency. UI: **Expected cash (not bank balance)**. | Derived `get_finance_expected_cash`. Excludes past-due, undated, draft/cancelled, paid, planned, bank, and forecast inputs. | Bank balance; cash forecast; a second cashbook |
+| **Portfolio exceptions** | Read-only open-project follow-ups: overdue AR, overdue Tasks, pending variations, budget-burn risk, lead capacity band. UI: **Project exceptions**. | Derived `get_portfolio_exceptions`. Active company. Bounded. | A write table; a second ledger |
+| **Credit note** | Return SI/PI against a posted invoice | ERPNext `make_return_doc` via `create_studio_credit_note` | A second invoice book |
+| **Invoice export** | CSV or Frappe print of listed SI/PI rows | `invoice-export.ts` + `/printview` | Payment Entry as an invoice; a new document |
 
 ### 2.4 Money — supplier / cost side
 
@@ -178,7 +189,10 @@
 | Cash received | Payment Entry (+ bank) | SI outstanding; milestone **Paid** via sync | Manual **Paid** while SI still outstanding (sync will fight you if linked) |
 | Supplier **pay plan** | `project_supplier_payments` | — | — |
 | Legal supplier invoice | Purchase Invoice | Milestone `purchase_invoice` + status | — |
-| Team headers | Team table + header User fields | Headers filled from table if empty | — |
+| Team headers | `Project Team Member` + `lead_architect` | Headers filled from table if empty; list stack derived | A second people DocType |
+| Expected cash | Submitted SI/PI outstanding due in 30 days | Finance panel | Bank GL as expected cash |
+| Portfolio exceptions | Derived from SI, Task, variations, burn, capacity board | Portfolio panel | Writing exceptions as documents |
+| Communication owner | Leftover stored field | None in Studio product logic | Treating SPOC as a live job |
 | Primary contact | Stakeholder `is_primary` or header | Header from primary stakeholder | — |
 | Budget intent | `overall_budget` | — | — |
 | Budget spent / burn | `compute_project_spent` (native costing + submitted PIs) → `sync_burn_rate` | `budget_spent`, `budget_burn_pct`, notes | Material plan table as spent; manual burn without PI |
@@ -191,10 +205,14 @@
 
 Owner UI map for the project command sheet and company Finance. Display only. Money SSOT stays Sales Invoice, Purchase Invoice, Payment Entry, and GL.
 
-- Project tabs order: Overview, Activity, Money, Payments, Docs, Variations
-- Overview is status, people, and next date. It does not repeat Money or Payments lists.
+- Project tabs order: Overview, People, Activity, Money, Payments, Docs, Variations (SSOT: `PROJECT_COMMAND_TAB_ORDER` in `project-command-tabs.ts`)
+- Overview is status, next date, and a People teaser. It does not repeat Money or Payments lists.
+- People = job Lead (`lead_architect`) plus `Project Team Member` roster. Not Task `_assign`.
 - Money = this job SI + PI (VAT Net). Payments = this job PE.
 - Finance = company-wide same documents. Same SI / PI / PE, not a second table.
+- Finance also shows an expected-cash panel (30-day due SI/PI, not bank balance). Tabs stay `ar`, `ap`, `payments`, `reports`, `soa`, `overhead`, `monthly`, `ledger`.
+- Portfolio exceptions is a read-only follow-up grid on `/studio/portfolio`, not a project tab.
+- Owner Lite may use Finance (money DocPerms live). Viewer may read, not write.
 - Variations approve here, cash only after SI + PE.
 - Activity is not the ledger.
 - No second studio ledger.
@@ -223,7 +241,7 @@ Studio Web mounts this as `SectionExplainer` from `studio-section-copy.ts`. Proj
 | `project_partners` | Commercial | Master |
 | `primary_client_contact` | Commercial | Master / denorm |
 | `project_stakeholders` | Commercial | Master |
-| `communication_owner` | Commercial | Master |
+| `communication_owner` | Leftover stored | Not a Studio product writer |
 | `project_lifecycle_status` | Commercial | Master (default Moodboard prep; see job status list) |
 | `overall_budget` | Commercial | Master |
 | `budget_spent`, `budget_burn_pct`, `budget_burn_notes` | Commercial display | **Derived** |
@@ -398,7 +416,7 @@ flowchart LR
 
 ### 6.5 Profile dashboard (display only)
 
-`project_profile.js` **reads** lifecycle, SPOC, team/stakeholder/partner counts, burn, client paid/total milestones, supplier paid/total. **Does not write** domain facts.
+`project_profile.js` **reads** lifecycle, team/stakeholder/partner counts, burn, client paid/total milestones, supplier paid/total. **Does not write** domain facts. Leftover `communication_owner` data is not a product filter.
 
 ---
 
@@ -413,6 +431,11 @@ flowchart LR
 | Task validate | `automation/task.py` | discipline/color | Project |
 | Opportunity convert | `automation/opportunity.py` | Customer, Project, tasks, Opp link | Opp/Lead |
 | Studio Activity (comm log) | `api/activity.py` | activity rows (single writer) | Customer/Lead/Opp/Project/Task |
+| Assignment | `api/assignment.py` | `set_project_people`, `set_task_people` | Team Member / `_assign` |
+| Studio Web facade | `api/studio_web.py` | thin re-export of writers | lists, finance, portfolio |
+| Expected cash | `get_finance_expected_cash` | none (read-only) | submitted SI/PI due in 30 days |
+| Portfolio exceptions | `api/portfolio_exceptions.py` | none (read-only) | SI, Task, variations, burn, capacity |
+| People list cell | `project-people-list.ts` / `project-people-stack.tsx` | none (display) | `list_project_people` |
 | Milestone sync | `automation/milestone_sync.py` | milestone links + status | SI/PI/PE |
 | Task views / backfill | `setup/task_views.py` | discipline/color fill empty | Task |
 | Desk shell / roles | `setup/desk.py`, `users.py` | session filter | — |
@@ -454,7 +477,7 @@ flowchart LR
 1. Tasks from template / manual  
 2. Assign (`_assign` JSON array only)  
 3. Calendar/Kanban/Gantt  
-4. Optional Timesheet + Project Update (often empty today)  
+4. Activity (`Studio Activity`) for progress; Timesheet remains ERP/support, not Work UI  
 
 ### F5 — Cost control
 
@@ -469,11 +492,13 @@ flowchart LR
 | Role profile | Pipeline | Delivery | Commercial | Finance | Site |
 |--------------|----------|----------|------------|---------|------|
 | Studio Principal | full | full | full | full | full |
+| Studio Owner Lite | full | full | full | full (no Admin / User / Company) | web |
 | Studio Design Lead | full | full | edit profile | limited | limited |
-| Studio Site and Contracts | limited | project/task | read | — | full |
+| Studio Site / Site and Contracts | limited | project/task | read | — | full |
 | Studio Finance | — | project header | read budget | full | PI/PO |
+| Studio Viewer | read | read | read | read | read |
 
-(Exact workspace lists: `setup/workspaces.py` + `setup/users.py`.)
+(Exact nav: `nav-access.ts`. Exact DocPerms: `setup/install.py` `PERMISSIONS`.)
 
 ---
 
@@ -510,10 +535,15 @@ Then implement and run `bash scripts/agent-gate.sh`.
 | Doc | Role vs ontology |
 |-----|------------------|
 | **DOMAIN-ONTOLOGY.md** (this) | Meaning, SSOT, effects, glossary |
+| **PRODUCT-GLOSSARY.md** | Human say-this language |
+| **PLATFORM-GLOSSARY-AND-FUNCTIONS.md** | Tab/function sentences |
+| **ASSIGNMENT.md** | Project / Task people writers |
+| **ONTOLOGY-JTBD-ALIGNMENT.md** | Contradictions vs JTBD / gaps |
+| **GAP-ANALYSIS-2026-08-24.md** | Dated live-vs-local snapshot |
 | **SPACES-CONTRACTS.md** | Hard invariants + footguns + deploy |
 | **JOURNEY-MATRIX.md** | Path test rows |
 | **STUDIO-WORKFLOW.md** | Human process narrative |
-| **FEATURE-GAPS.md** | Completeness vs desired features |
+| **FEATURE-GAPS.md** | Historical Desk/ERP inventory |
 | **VERTICAL-STRATEGY.md** | Multi-vertical platform strategy |
 | **PLATFORM-SITEMAP.md** | URLs / DocType inventory |
 
@@ -551,5 +581,6 @@ Then implement and run `bash scripts/agent-gate.sh`.
 | 2026-08-16 | Owner UI map: §3.1 Project tabs and Finance. Command sheet tab order Overview / Activity / Money / Payments / Docs / Variations. Money = this job SI + PI (VAT Net). Payments = this job PE. Finance = same documents company-wide. Activity is not the ledger. No second studio ledger. |
 | 2026-08-16 | §3.1: Overview does not remount Money/Payments invoice or payment lists. Figures live on Money; cash on Payments. |
 | 2026-08-16 | Invoice export: CSV or Frappe print of SI/PI only (`invoice-export.ts`). Not a new document. |
+| 2026-08-24 | Elements refresh: People is a command-sheet tab (`PROJECT_COMMAND_TAB_ORDER`). Expected cash (not bank) and portfolio exceptions are read-only SI/PI/Task/capacity derivations. Owner Lite has money DocPerms without Admin clone. `communication_owner` leftover, not a product writer. Job Order identity example is `YYMM-NNNN`. |
 
 When you change a SSOT rule or effect, update **this file** and the matching contract/audit in the same change set.
